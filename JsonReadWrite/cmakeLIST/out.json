@@ -1,0 +1,27 @@
+{
+	"AGE" : 22,
+	"AGE2" : 123,
+	"FNAME" : "HIMANSHU",
+	"LASTNAME" : "HIMANSHU2",
+	"book" : "Alice in Wonderland",
+	"characters" : 
+	[
+		{
+			"chapter" : 1,
+			"name" : "Jabberwock"
+		},
+		{
+			"chapter" : 6,
+			"name" : "Cheshire Cat"
+		},
+		{
+			"chapter" : 7,
+			"name" : "Mad Hatter"
+		}
+	],
+	"year" : 1865
+}
+{
+	"AB" : "CD",
+	"VALUE" : 12
+}
