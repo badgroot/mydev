@@ -10,7 +10,12 @@ message("jsoncpp library not found")
 ELSE()
 message("jsoncpp library found!!!")
 ENDIF(${JSONCPP} STREQUAL "")
+if("${CMAKE_TOOLCHAIN_FILE}" STREQUAL "")
+message("tool chain file not provide")
+else()
+message("toolchain file found")
 
+endif()
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/in.json
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
