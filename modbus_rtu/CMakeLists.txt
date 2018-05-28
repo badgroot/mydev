@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.5.0)
+find_library(MODBUS modbus)
+message("${MODBUS}")
+add_executable(modbus_rtu_read src/modbus_read.cpp)
+add_executable(modbus_rtu_write src/modbus_write.cpp)
+target_link_libraries(modbus_rtu_write  ${MODBUS})
+target_link_libraries(modbus_rtu_read ${MODBUS})
