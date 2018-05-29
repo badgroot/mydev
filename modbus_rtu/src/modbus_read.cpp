@@ -54,7 +54,7 @@ ctx=modbus_new_rtu(deviceName,baudRate,'N',dataBit,stopBit);
 if(ctx){
         if(modbus_set_slave(ctx,  slaveid)==0)
         {
-              if(modbus_connect(ctx)){
+              if(modbus_connect(ctx)==0){
                         for(int i=0;i<3;i++){
 
                                 if(modbus_read_registers(ctx, register_address, count, destination)!=-1){

@@ -40,7 +40,16 @@ if(argc <6)
 printf("USAGE: ./modbus_write_rtu deviceName baudRate SLAVEID dataBit stopbBit register_address value\n");
 return 0;
 }
-//modbus_t *modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop_bit);
+modbus_t *ctx = NULL;
+deviceName=argv[DEV_NAME];
+baudRate=std::atoi(argv[BAUD_RATE]);
+slaveid=std::atoi(argv[SLAVE_ID]);
+dataBit=std::atoi(argv[DATA_BITS]);
+stopBit=std::atoi(argv[STOP_BITS]);
+register_address=std::atoi(argv[ADDRESS]);
+value=std::atoi(argv[VALUE]);
+
+
 std::cout<<"device name "<<deviceName<<std::endl   	
 			<<"baud rate  "<< baudRate<<std::endl
 			<<"slaveId  "<<slaveid<<std::endl
@@ -51,7 +60,7 @@ std::cout<<"device name "<<deviceName<<std::endl
 			<<"value     "<<value<<std::endl;
 		//return 0;
 
-modbus_t *ctx = NULL;
+//modbus_t *modbus_new_rtu(const char *device, int baud, char parity, int data_bit, int stop_bit);
 
 ctx=modbus_new_rtu(deviceName,baudRate,'N',dataBit,stopBit);
 if(ctx){
