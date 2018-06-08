@@ -1,0 +1,175 @@
+#/bin/bash
+echo "Press 1 to configure NB for CPHM"
+echo "Press x to EXIT"
+read -p 'Your Option: ' input
+case $input in
+1)
+sudo apt-get --yes update
+sudo apt-get --yes install libwxgtk3.0-dev
+sudo apt-get --yes install libgtk-3-dev
+sudo apt-get --yes build-dep xserver-xorg  xserver-xorg-core 
+sudo apt-get --yes install xserver-xorg-core
+sudo apt-get --yes install xserver-xorg
+sudo apt-get --yes install --reinstall xorg
+sudo apt-get --yes install libwebkitgtk-3.0-dev
+sudo apt-get --yes install apache2
+sudo apt-get --yes install ubuntu-restricted-extras
+sudo apt-get --yes install rsyslog
+sudo apt-get --yes install logrotate
+sudo apt-get --yes install gsoap
+sudo apt-get --yes install snmp
+sudo apt-get --yes install snmpd
+sudo apt-get --yes install dnsutils
+sudo apt-get --yes install libmodbus-dev
+sudo apt-get --yes install libcurl4-gnutls-dev
+sudo apt-get --yes install sqlite3
+sudo apt-get --yes install libsqlite3-dev
+sudo apt-get --yes install libsnmp-dev
+sudo apt-get --yes install libudev-dev
+sudo apt-get --yes install libusb-dev
+sudo apt-get --yes install libboost-all-dev
+sudo apt-get --yes install ftp
+sudo apt-get --yes install watchdog
+sudo apt-get --yes install libcurl4-openssl-dev
+sudo apt-get --yes remove mc
+# below if require for Hotsport
+sudo apt-get --yes install dnsmasq
+sudo apt-get --yes install hostapd dnsmasq iptables
+sudo apt-get --yes install modemmanager network-manager uuid
+sudo apt-get --yes install ppp
+
+# Below is for Root password set
+sudo echo -e 'grid$cape\ngrid$cape' | passwd root
+
+# Below is for export display
+sudo grep 'export DISPLAY=:0.0' /etc/profile || echo 'export DISPLAY=:0.0' >>  /etc/profile
+
+
+# Below is for settingup port & root login enable
+sudo sed -i "s|Port 22|Port 52535|g" /etc/ssh/sshd_config
+sudo sed -i "s|PermitRootLogin prohibit-password|PermitRootLogin yes|g" /etc/ssh/sshd_config
+
+# Below is for auto login root
+sudo sed -i 's/\--noclear\b/--noclear -a root/' /lib/systemd/system/getty@.service
+
+# Below is for screen rotate & auto start
+
+if [ `grep xrandr /root/.bashrc` ]; then
+  echo nothing to do
+else
+	echo 'if [ $(tty) == "/dev/tty1" ]; then' >> /root/.bashrc
+	echo '    while true; do startx -- -nocursor -depth 16; echo "Again [$?]..."; done' >> /root/.bashrc
+	echo "fi" >> /root/.bashrc
+	echo "xrandr -o left" >> /root/.bashrc
+	echo "xinput set-prop ft5x06  'Coordinate Transformation Matrix' 0 -1 1 1 0 0 0 0 1" >> /root/.bashrc
+fi
+
+# below is for IP setup 
+sudo cat <<EOT > /etc/network/interfaces
+allow-hotplug eth0
+iface eth0 inet dhcp
+auto lo
+iface lo inet loopback
+
+auto wlan0
+iface wlan0 inet static
+hostapd /etc/hostapd/hostapd.conf
+address 192.168.10.1
+netmask 255.255.255.0
+EOT
+
+#below is for Modem Manager
+sudo cat <<EOT > /etc/NetworkManager/system-connections/MyModem
+[connection]
+id=Modem
+uuid=5006d474-c8d7-11e6-95d7-0019b802c476
+type=gsm
+
+[gsm]
+number=*99#
+apn=iotst.aer.net
+
+[ipv4]
+method=auto
+
+[serial]
+baud=115200
+EOT
+
+
+sudo chmod 600 /etc/NetworkManager/system-connections/MyModem
+sudo chown root:root /etc/NetworkManager/system-connections/MyModem
+sudo sed -e '/dns/s/^/#/g' -i /etc/NetworkManager/NetworkManager.conf
+sudo echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+
+# Below is for dnsmasq - similar to DHCP service
+
+sudo cat <<EOT > /etc/dnsmasq.conf
+interface=lo,wlan0
+no-dhcp-interface=lo
+dhcp-range=192.168.10.10,192.168.10.254,255.255.255.0,12h
+dhcp-host=00:0E:8E:6C:D7:53,192.168.10.150,net:allow
+dhcp-ignore=#allow
+EOT
+
+# Below is for hotspot configuration - SSID & Password with its security type etc...
+
+sudo cat <<EOT > /etc/hostapd/hostapd.conf
+interface=wlan0
+driver=nl80211
+ssid=ENBMAX6
+hw_mode=g
+channel=6
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=3
+wpa_passphrase=Gr1d5cap3wifi
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+EOT
+
+# Below is for enable ip forwarding
+
+sudo cat /etc/sysctl.conf |tail -n1 | grep "net.ipv4.ip_forward=1" || echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+
+
+# Below is for setup crontab
+echo '* * * * * sleep30;bash /ocppkiosk/Scripts/StartCPHMKiosk.sh > /var/log/StartKiosk.log' > /tmp/cphmcron.txt
+echo '*/2 * * * * systemctl status dnsmasq.service |grep running || systemctl restart dnsmasq.service' >> /tmp/cphmcron.txt
+echo '*/2 * * * * systemctl status OcppClientService |grep running ||  systemctl restart OcppClientService.service' >> /tmp/cphmcron.txt
+echo '* */1 * * * bash /OCPP/bin/ftphandler >>/var/log/ftphanler.log' >> /tmp/cphmcron.txt
+echo '*/5 * * * * mmcli -m 0 |grep "connected" || sudo mmcli -m 0 -e; sleep 10 && mmcli -m 0 |grep "connected" || sudo nmcli con up id Modem' >> /tmp/cphmcron.txt
+echo '0 11 * * * bash /OCPP/bin/ping.sh' >> /tmp/cphmcron.txt
+echo '45 12 * * * bash /OCPP/bin/clearlog.sh' >> /tmp/cphmcron.txt
+echo '@reboot sleep 60; a=`mmcli -i 0 |grep -w id |head -n1 | grep -o "[0-9]\+"`;sqlite3 /OCPP/etc/ocppclient.db "update dpconfig set ICCID=$a"' >> /tmp/cphmcron.txt
+sudo crontab /tmp/cphmcron.txt
+
+# Copy files
+cp /usr/lib/arm-linux-gnueabihf/libGL.so  /usr/lib/arm-linux-gnueabihf/libGL.so.1
+cp /usr/lib/arm-linux-gnueabihf/vivante/xorg/vivante_drv.so /usr/lib/xorg/modules/drivers/
+    
+# Create service of ocppclient
+
+sudo ln -s /OCPP/bin/OcppClientService.service /etc/init.d/OcppClientService
+sudo ln -s /OCPP/bin/kconf.sh /root/kconf.sh
+sudo update-rc.d OcppClientService defaults
+
+# Reboot now
+sudo echo "ALL SET, BOARD WILL REBOOT NOW"
+echo "To Auto start watchdog in ubuntu 16, follow below steps"
+echo "edit '/lib/systemd/system/watchdog.service' file"
+echo "in that file add below line after [Install] And then run: 'systemctl daemon-reload' & 'systemctl enable watchdog', then 'reboot'"
+sleep 10
+sudo reboot
+
+
+#WantedBy=default.target
+
+
+;;
+x)
+sudo echo "Nothing changed, Existing"
+;;
+esac
