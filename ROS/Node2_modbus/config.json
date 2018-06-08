@@ -1,0 +1,14 @@
+{
+	"devicename": "ttyUSB0",
+	"baudrate": 115200,
+	"slaveid": 1,
+	"databit": 8,
+	"stopbit": 1,
+	"controlreg": 1100,
+	"statusreg": 1200,
+	"retrycount":3
+
+
+
+
+}

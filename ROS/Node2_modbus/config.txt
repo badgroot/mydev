@@ -1,0 +1,7 @@
+deviceid=ttyUSB0,
+baudrate=115200,
+slaveid=1,
+databit=8,
+stopbit=1,
+retrycount=3,
+

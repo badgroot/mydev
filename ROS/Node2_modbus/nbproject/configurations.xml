@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="97">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>/home/user/NetBeansProjects/Node2_modbus/config.h</itemPath>
+      <itemPath>/home/user/NetBeansProjects/Node2_modbus/jsonHandling.h</itemPath>
+      <itemPath>modbus.h</itemPath>
+      <itemPath>ros_listner.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>/home/user/NetBeansProjects/Node2_modbus/jsonHandling.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+      <itemPath>modbus.cpp</itemPath>
+      <itemPath>ros_listner.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>/opt/ros/kinetic/include</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>node2_modbus</output>
+          <linkerAddLib>
+            <pElem>/opt/ros/kinetic/lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerOptionItem>-lrosconsole</linkerOptionItem>
+            <linkerOptionItem>-lroscpp</linkerOptionItem>
+            <linkerOptionItem>-lroscpp_serialization</linkerOptionItem>
+            <linkerOptionItem>-lpthread</linkerOptionItem>
+            <linkerOptionItem>-lmodbus</linkerOptionItem>
+            <linkerOptionItem>-lrostime</linkerOptionItem>
+            <linkerOptionItem>-ljsoncpp</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/config.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/jsonHandling.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/jsonHandling.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modbus.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modbus.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ros_listner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ros_listner.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/config.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/jsonHandling.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="/home/user/NetBeansProjects/Node2_modbus/jsonHandling.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modbus.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="modbus.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="ros_listner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="ros_listner.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
