@@ -1,0 +1,33 @@
+1.	compilation process
+					mkdir build
+					cd build 
+					cmake ../
+					make
+
+
+
+
+
+////////////////////////  Cross compilation step  ///////////////////////////
+2. cross compilation process 
+					mkdir build-armhf
+					cd build-armhf
+					cmake -DCMAKE_TOOLCHAIN_FILE=$PWD/../platform/Linux/armv7l.cmake ../
+					make
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.5.0)
+project(modbusTCP)
+set(EXECUTABLE_OUTPUT_PATH "bin")
+set(CMAKE_CXX_STANDARD 11)
+find_library(MODBUS modbus)
+
+add_executable(modbus_tcp_read modbus_tcp_read.cpp )
+add_executable(modbus_tcp_write modbus_tcp_write.cpp)
+target_link_libraries(modbus_tcp_read ${MODBUS})
+target_link_libraries(modbus_tcp_write ${MODBUS})
