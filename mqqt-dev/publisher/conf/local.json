@@ -1,0 +1,9 @@
+{
+	"server": "127.0.0.1",
+	"user": "",
+	"password": "",
+	"port": 1883,
+	"debugging":true,
+	"keepalive":10,
+	"topic":"grid"
+}
