@@ -1,0 +1,10 @@
+{
+	"server": "m12.cloudmqtt.com",
+	"user": "lnukvuar",
+	"password": "Ab1K9r7x409r",
+	"port": 11110,
+	"debugging":true,
+	"keepalive":10,
+	"topic":"grid"
+
+}
